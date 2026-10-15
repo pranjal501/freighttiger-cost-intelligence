@@ -69,17 +69,19 @@ app = FastAPI(
 # CORS
 # --------------------------------------------------
 
+a
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "https://freighttiger-cost-intelligence-xlut.vercel.app",
+        "https://freighttiger-cost-intelligence-x1ut.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type"],
 )
+
 
 
 # --------------------------------------------------
@@ -361,10 +363,9 @@ def logout(request: Request, response: Response):
 # FREIGHT ANALYSIS
 # --------------------------------------------------
 
-@app.get("/api/analyze")
-def analyze(request: Request):
-    require_logged_in_user(request)
 
+@app.get("/api/analyze")
+def analyze():
     df = get_analysis()
 
     records = (
