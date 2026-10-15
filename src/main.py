@@ -69,13 +69,14 @@ app = FastAPI(
 # CORS
 # --------------------------------------------------
 
-a
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
         "https://freighttiger-cost-intelligence-x1ut.vercel.app",
+        "https://freighttiger-cost-intelligence-x1ut-8vr8z5pvf.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
