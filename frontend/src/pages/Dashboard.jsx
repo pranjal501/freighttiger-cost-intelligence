@@ -28,6 +28,11 @@ function MetricCard({ title, value, description, icon: Icon }) {
 }
 
 export default function Dashboard() {
+  const API_URL = (
+  import.meta.env.VITE_API_URL ||
+  "https://freighttiger-cost-intelligence-2.onrender.com"
+).replace(/\/$/, "");
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -38,7 +43,10 @@ export default function Dashboard() {
 
     try {
       // Fetch analysis directly without checking login.
-      const response = await fetch("/api/analyze");
+      const response = await fetch(`${API_URL}/api/analyze`, {
+  method: "GET",
+  credentials: "include",
+});
 
       if (!response.ok) {
         throw new Error(`Backend returned HTTP ${response.status}`);
@@ -311,12 +319,41 @@ export default function Dashboard() {
               </p>
             </section>
 
-            <a
-              href="/api/export"
-              className="mt-6 inline-flex items-center rounded-sm bg-[#FFBE00] px-4 py-3 text-xs font-bold text-black hover:bg-[#FFD34C]"
-            >
-              EXPORT CSV ↗
-            </a>
+            
+<a
+  href={`${API_URL}/api/export`}
+  onClick={async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch(`${API_URL}/api/export`, {
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`Export failed: HTTP ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "freight_cost_analysis.csv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Export error:", error);
+      alert(error.message);
+    }
+  }}
+  className="mt-6 inline-flex items-center rounded-sm bg-[#FFBE00] px-4 py-3 text-xs font-bold text-black hover:bg-[#FFD34C]"
+>
+  EXPORT CSV ↗
+</a>
+
           </>
         )}
       </section>
