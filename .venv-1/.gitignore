@@ -1,0 +1,21 @@
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Frontend
+node_modules/
+dist/
+
+# Local database
+data/app_users.db
+
+# Generated analysis output (optional)
+# outputs/freight_cost_analysis.csv
